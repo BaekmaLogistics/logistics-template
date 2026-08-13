@@ -174,4 +174,36 @@ public class QueueConfig {
                 .with(keyOrderDeliveryCancelFailed);
     }
 
+    // Order -> Hub (주문 생성: 재고 차감 요청)
+    @Bean
+    public Binding bindingHubOrderCreated() {
+        return BindingBuilder.bind(queueHub())
+                .to(exchange())
+                .with(keyNotificationOrderCreated);
+    }
+
+    // Order -> Hub (주문 취소: 재고 복구 요청)
+    @Bean
+    public Binding bindingHubOrderCanceled() {
+        return BindingBuilder.bind(queueHub())
+                .to(exchange())
+                .with(keyNotificationOrderCanceled);
+    }
+
+    // Order -> Delivery (주문 생성: 배송 생성 요청)
+    @Bean
+    public Binding bindingDeliveryOrderCreated() {
+        return BindingBuilder.bind(queueDelivery())
+                .to(exchange())
+                .with(keyNotificationOrderCreated);
+    }
+
+    // Order -> Delivery (주문 취소: 배송 취소 요청)
+    @Bean
+    public Binding bindingDeliveryOrderCanceled() {
+        return BindingBuilder.bind(queueDelivery())
+                .to(exchange())
+                .with(keyNotificationOrderCanceled);
+    }
+
 }
